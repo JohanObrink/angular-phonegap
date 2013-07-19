@@ -1,10 +1,14 @@
 # angular-phonegap
 
-angular-phonegap is a set of wrappers for Cordova/PhoneGap for a smooth integration with AngularJS. You can stop
+angular-phonegap is a module for Cordova/PhoneGap for a smooth integration with AngularJS. You can stop
 worrying about `deviceready` and focus more on your application.
+
+Handling the 'deviceready' event is done using Brian Ford's excellent solution, https://github.com/btford/angular-phonegap-ready, to provide seamless integration with Phonegap.
 
 The API's in this library are identical to the PhoneGap/Cordova API's, so you should check the documentation there:
 http://docs.phonegap.com. A little more information on how to handle information in callbacks is provided below.
+
+
 
 ## Usage
 
