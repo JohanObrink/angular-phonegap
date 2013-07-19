@@ -27,22 +27,58 @@ var Camera = Camera || {
 };
 
 angular.module('PhoneGap')
-    .factory('Camera', function ($q, $window, PhoneGap) {
+    .factory('Camera', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
+        var idCounter = 0;
+        var watchMap = {};
+
         return {
-            getPicture: function (onSuccess, onError, options) {
-                PhoneGap.ready().then(function () {
-                    $window.navigator.camera.getPicture(onSuccess, onError, options);
+            getPicture: PhonegapReady(function (onSuccess, onError, options) {
+                $window.navigator.camera.getPicture(function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onSuccess) {
+                        $rootScope.$apply(function () {
+                            onSuccess.apply(that, args);
+                        });
+                    }
+                }, function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onError) {
+                        $rootScope.$apply(function () {
+                            onError.apply(that, args);
+                        });
+                    }
+                },
+                options);
+            }),
+            cleanup: PhonegapReady(function (onSuccess, onError) {
+                $window.navigator.camera.cleanup(function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onSuccess) {
+                        $rootScope.$apply(function () {
+                            onSuccess.apply(that, args);
+                        });
+                    }
+                }, function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onError) {
+                        $rootScope.$apply(function () {
+                            onError.apply(that, args);
+                        });
+                    }
                 });
-            },
-            cleanup: function (onSuccess, onError) {
-                PhoneGap.ready().then(function () {
-                    $window.navigator.camera.cleanup(onSuccess, onError);
-                });
-            },
+            }),
             PictureSourceType: Camera.PictureSourceType,
             DestinationType: Camera.DestinationType,
             EncodingType: Camera.EncodingType,
             MediaType: Camera.MediaType,
             Direction: Camera.Direction
         };
-    });
+    }]);

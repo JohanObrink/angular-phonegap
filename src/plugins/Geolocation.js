@@ -1,30 +1,62 @@
 'use strict';
 
 angular.module('PhoneGap')
-    .factory('Geolocation', function ($q, $window, PhoneGap) {
+    .factory('Geolocation', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
         var idCounter = 0;
         var watchMap = {};
 
         return {
-            getCurrentPosition: function (onSuccess, onError, options) {
-                PhoneGap.ready().then(function () {
-                    $window.navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-                });
-            },
-            watchPosition: function (onSuccess, onError, options) {
+            getCurrentPosition: PhonegapReady(function (onSuccess, onError, options) {
+                $window.navigator.geolocation.getCurrentPosition(function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onSuccess) {
+                        $rootScope.$apply(function () {
+                            onSuccess.apply(that, args);
+                        });
+                    }
+                }, function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onError) {
+                        $rootScope.$apply(function () {
+                            onError.apply(that, args);
+                        });
+                    }
+                },
+                options);
+            }),
+            watchPosition: PhonegapReady(function (onSuccess, onError, options) {
                 var watchId = (++idCounter).toString(10);
-                PhoneGap.ready().then(function () {
-                    watchMap[watchId] = $window.navigator.geolocation.watchPosition(onSuccess, onError, options);
-                });
+                watchMap[watchId] = $window.navigator.geolocation.watchPosition(function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onSuccess) {
+                        $rootScope.$apply(function () {
+                            onSuccess.apply(that, args);
+                        });
+                    }
+                }, function () {
+                    var that = this,
+                    args = arguments;
+
+                    if (onError) {
+                        $rootScope.$apply(function () {
+                            onError.apply(that, args);
+                        });
+                    }
+                },
+                options);
                 return watchId;
-            },
-            clearWatch: function (watchId) {
+            }),
+            clearWatch: PhonegapReady(function (watchId) {
                 if (watchMap[watchId]) {
-                    PhoneGap.ready().then(function () {
-                        $window.navigator.geolocation.clearWatch(watchMap[watchId]);
-                        delete watchMap[watchId];
-                    });
+                    $window.navigator.geolocation.clearWatch(watchMap[watchId]);
+                    delete watchMap[watchId];
                 }
-            }
+            })
         };
-    });
+    }]);
