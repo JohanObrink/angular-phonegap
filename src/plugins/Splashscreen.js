@@ -3,10 +3,10 @@
 angular.module('PhoneGap')
     .factory('Splashscreen', ['$window', 'PhonegapReady', function ($window, PhonegapReady) {
 		return {
-			show: PhonegapReady(function (key) {
+			show: PhonegapReady(function () {
 				$window.navigator.splashscreen.show();
 			}),
-			hide: PhonegapReady(function (key, value) {
+			hide: PhonegapReady(function () {
 				$window.navigator.splashscreen.hide();
 			})
 		};

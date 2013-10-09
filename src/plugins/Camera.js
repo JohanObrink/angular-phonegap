@@ -28,8 +28,8 @@ var Camera = Camera || {
 
 angular.module('PhoneGap')
     .factory('Camera', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
-        var idCounter = 0;
-        var watchMap = {};
+        //var idCounter = 0;
+        //var watchMap = {};
 
         return {
             getPicture: PhonegapReady(function (onSuccess, onError, options) {

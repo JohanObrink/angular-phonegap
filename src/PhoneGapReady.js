@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('PhoneGap', [])
-    .factory('PhonegapReady', ['$document', '$rootScope', function ($document, $rootScope) {
+    .factory('PhonegapReady', ['$document', function ($document) {
         return function (fn) {
             var queue = [];
 

@@ -2,8 +2,8 @@
 
 angular.module('PhoneGap')
     .factory('Capture', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
-        var idCounter = 0;
-        var watchMap = {};
+        //var idCounter = 0;
+        //var watchMap = {};
 
         return {
             captureAudio: PhonegapReady(function (onSuccess, onError, options) {

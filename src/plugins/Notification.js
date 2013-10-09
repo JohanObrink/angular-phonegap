@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('PhoneGap')
- 	.factory('Notification', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
+	.factory('Notification', ['$window', '$rootScope', 'PhonegapReady', function ($window, $rootScope, PhonegapReady) {
 	    return {
 			alert: PhonegapReady(function (message, alertCallback, title, buttonName) {
 				$window.navigator.notification.alert(message, function () {
@@ -30,4 +30,4 @@ angular.module('PhoneGap')
 				$window.navigator.notification.vibrate(milliseconds);
 			})
 		};
-  }]);
+	}]);

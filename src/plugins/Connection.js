@@ -5,6 +5,6 @@ angular.module('PhoneGap')
 		return {
 			type: PhonegapReady(function () {
 				return $window.navigator.network.connection.type;
-			});
+			})
 		};
     }]);
