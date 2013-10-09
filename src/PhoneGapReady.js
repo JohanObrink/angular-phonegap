@@ -1,23 +1,25 @@
-'use strict';
 
 angular.module('PhoneGap', [])
-    .factory('PhonegapReady', ['$document', function ($document) {
-        return function (fn) {
-            var queue = [];
+.factory('PhonegapReady', ['$document', function ($document) {
 
-            var impl = function () {
-                queue.push(Array.prototype.slice.call(arguments));
-            };
+  'use strict';
 
-            $document.addEventListener('deviceready', function () {
-                queue.forEach(function (args) {
-                    fn.apply(this, args);
-                });
-                impl = fn;
-            }, false);
+  return function (fn) {
+    var queue = [];
 
-            return function () {
-                return impl.apply(this, arguments);
-            };
-        };
-    }]);
+    var impl = function () {
+      queue.push(Array.prototype.slice.call(arguments));
+    };
+
+    $document.addEventListener('deviceready', function () {
+      queue.forEach(function (args) {
+        fn.apply(this, args);
+      });
+      impl = fn;
+    }, false);
+
+    return function () {
+      return impl.apply(this, arguments);
+    };
+  };
+}]);
